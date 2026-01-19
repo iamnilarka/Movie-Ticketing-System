@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="ticket.css">
+    <title>Your Tickets</title>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container">
+            <a href="book.html" class="navbar-brand"><span>iCUBE</span> Cinema</a>
+        </div>
+    </nav>
+    <div class="ticket-container">
+        <h2>Your Booked Tickets</h2>
+        <button id="print-btn">Print Tickets</button>
+        <div class="tickets" id="tickets"></div>
+    </div>
+    <div class="footer">
+        &copy; Developed by Nilarka Das : +918207070408
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.5/JsBarcode.all.js"></script>
+    <script>
+        const seats = JSON.parse(localStorage.getItem('bookedSeats')) || [];
+        const movie = localStorage.getItem('movie');
+        const date = localStorage.getItem('date');
+        const time = localStorage.getItem('time');
+        const background = localStorage.getItem('background');
+        const tickets = document.getElementById('tickets');
+
+        seats.forEach(seat => {
+            const div = document.createElement('div');
+            div.className = 'ticket';
+            div.innerHTML = `
+                <div class="barcode">
+                    <div class="info"><h6>ROW ${seat.row}</h6><h6>${date} March ${new Date().getFullYear()}</h6></div>
+                    <div class="info"><h6>Seat ${seat.seat}</h6><h6>${time}</h6></div>
+                    <div class="info"><h6>Price</h6><h6>₹${seat.price}</h6></div>
+                    <svg id="${seat.row}${seat.seat}barcode"></svg>
+                    <h5>iCUBE CINEMA</h5>
+                </div>
+                <div class="details" style="background: url('${background}') no-repeat center -35px/cover;">
+                    <div class="type">IMAX</div>
+                    <h5 class="pvr"><span>iCUBE</span> Cinema</h5>
+                    <h1>${movie}</h1>
+                    <div class="seat-details">
+                        <div class="seat-cr"><h6>ROW</h6><h6>${seat.row}</h6></div>
+                        <div class="seat-cr"><h6>SEAT</h6><h6>${seat.seat}</h6></div>
+                        <div class="seat-cr"><h6>DATE</h6><h6>${date} <span class="month">Mar</span></h6></div>
+                        <div class="seat-cr"><h6>TIME</h6><h6>${time} <span class="ampm">${time < "13:00" ? 'am' : 'pm'}</span></h6></div>
+                    </div>
+                </div>
+            `;
+            tickets.appendChild(div);
+            JsBarcode(`#${seat.row}${seat.seat}barcode`, `${seat.row}${seat.seat}${seat.price}${date}032025`);
+        });
+
+        document.getElementById('print-btn').addEventListener('click', () => {
+            window.print();
+        });
+    </script>
+</body>
+</html>

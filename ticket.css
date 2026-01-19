@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    min-height: 100vh;
+    background: #1f2025;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+.navbar {
+    padding: 15px 0;
+    background-color: #2e3037; /* Dark background to match ticket design */
+    width: 100%;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.navbar-brand {
+    font-size: 24px;
+    font-weight: 600;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-brand span {
+    color: red;
+    margin-right: 5px;
+}    
+
+.ticket-container {
+    width: 90%;
+    max-width: 800px;
+    margin: 20px auto;
+    color: #fff;
+    text-align: center;
+}
+
+.ticket-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.ticket-container #print-btn {
+    padding: 10px 20px;
+    background: #fd6565;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+    transition: .3s linear;
+}
+
+.ticket-container #print-btn:hover {
+    background: #e04e4e;
+}
+
+.tickets {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.ticket {
+    display: flex;
+    background: #2e3037;
+    border-radius: 10px;
+    overflow: hidden;
+    height: 220px;
+    border: 2px solid #ff3b3b; /* Red border */
+    box-shadow: 4px 4px 10px rgba(255, 59, 59, 0.4); /* Subtle red shadow */
+    transition: transform 0.2s ease-in-out;
+}
+
+.ticket:hover {
+    transform: scale(1.02);
+}
+
+.ticket .barcode {
+    width: 40%;
+    background: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 2px dashed #ff3b3b; /* Dashed separator */
+}
+
+.ticket .barcode .info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.ticket .barcode h6 {
+    font-size: 12px;
+    font-weight: 600;
+    color: #000;
+}
+
+.ticket .barcode h5 {
+    font-size: 14px;
+    color: #000;
+    text-align: center;
+}
+
+.ticket .details {
+    width: 60%;
+    position: relative;
+    background: url('img/bg.png') no-repeat center -35px/cover;
+    padding: 20px;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.ticket .details .type {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.ticket .details .pvr {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: red;
+}
+
+.ticket .details .pvr span {
+    color: #fff;
+}
+
+.ticket .details h1 {
+    position: absolute;
+    bottom: 80px;
+    left: 20px;
+    font-size: 24px;
+}
+
+.ticket .details .seat-details {
+    position: absolute;
+    bottom: 10px;
+    left: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.ticket .details .seat-details .seat-cr {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ticket .details .seat-details .seat-cr h6:first-child {
+    font-size: 10px;
+    color: #ccc;
+}
+
+.ticket .details .seat-details .seat-cr h6:last-child {
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Space between time/month and suffix */
+}
+
+.ticket .details .seat-details .seat-cr h6 .month,
+.ticket .details .seat-details .seat-cr h6 .ampm {
+    font-size: 10px;
+    font-weight: 400;
+    color: #ccc;
+}
+
+/* Print Mode */
+@media print {
+    nav, #print-btn {
+        display: none;
+    }
+
+    body {
+        background: none;
+    }
+
+    .ticket-container {
+        margin: 0;
+        width: 100%;
+        max-width: none;
+        color: white;
+    }
+
+    .ticket {
+        page-break-inside: avoid;
+        margin-bottom: 20px;
+        background: #808080; /* Grey background */
+        border-radius: 10px;
+        border: 2px solid #000;
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+        color: white;
+        position: relative; /* Required for overlay */
+        overflow: hidden;
+    }
+
+    .ticket .barcode {
+        background: #fff;
+        border-right: 2px dashed #000;
+    }
+
+    .ticket .details {
+        background: url('img/bg.png') no-repeat center top/cover;
+        color: white;
+        position: relative;
+    }
+
+    /* Bottom-to-top gradient overlay */
+    .ticket .details::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.8) 20%, rgba(0, 0, 0, 0) 100%);
+        z-index: 1;
+    }
+
+    /* Ensure text stays visible above overlay */
+    .ticket .details * {
+        position: relative;
+        z-index: 2;
+    }
+
+    .ticket .details .pvr,
+    .ticket .details .pvr span {
+        color: white;
+    }
+
+    .seat-details h6 {
+        color: rgb(255, 255, 255) !important;
+    }
+
+    .ticket .details .seat-details .seat-cr h6:first-child {
+        color: white;
+    }
+
+    .ticket .details .seat-details .seat-cr h6 .month,
+    .ticket .details .seat-details .seat-cr h6 .ampm {
+        color: rgb(255, 255, 255);
+    }
+
+    .ticket .details .seat-details .seat-cr h6 span {
+        color: rgb(255, 255, 255);
+    }
+}
+
+/* Footer Styles */
+.footer {
+    position: absolute;
+    margin-top: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        font-size: 12px;
+        padding: 8px 0;
+    }
+}
+
+
+
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #2e3037;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #fd6565;
+    border-radius: 10px;
+}
